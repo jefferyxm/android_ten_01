@@ -7,6 +7,7 @@ import android.os.Environment;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -63,6 +64,29 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        if(isExternalStorageWritable()==true) {
+            Toast.makeText(this,"sd_card is avaliable",Toast.LENGTH_LONG).show();
+            File newfile = getMyStorageDir("newfile4");
+        }
+    }
+
+    public boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            return true;
+        }
+        return false;
+    }
+
+    public File getMyStorageDir(String Name) {
+        // Get the directory for the user's public pictures directory.
+        File file = new File(Environment.getExternalStoragePublicDirectory(
+                "/storage/sdcard1"), Name);
+        if (!file.mkdirs()) {
+            Log.e("Tag", "Directory not created");
+            Toast.makeText(this,"创建目录失败",Toast.LENGTH_SHORT);
+        }
+        return file;
     }
 
 }
